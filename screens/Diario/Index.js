@@ -7,7 +7,14 @@ export default function Diario({ navigation, route }) {
 
 
   const [datos, setDatos] = useState("")
+  const [day, setDay] = useState(3)
+  const [gastosFiltrados, setGastosFiltrados] = useState(gastos)
 
+
+/*   useEffect(() => {
+    setGastosFiltrados(gastos.filter((categoria) => categoria.data.filter((registro) => registro.fecha == day)))
+  }, [day])
+ */
 
   useEffect(() => {
     if (route.params) {
@@ -15,6 +22,28 @@ export default function Diario({ navigation, route }) {
       console.log('ejecuto el efecto')
     }
   }, [route.params])
+
+  function filtrarPorDia(otroGato){
+    var filtrados = [];
+
+        for (let i = 0; i < otroGato.length; i++) {
+          for (let j = 0; j < otroGato[i].data.length; j++) {
+            if(otroGato[i].data[j].fecha === day)
+            filtrados.push(otroGato[i])
+          }          
+        }
+        
+//no me salio con filter ni con map, refactorizar por favor
+
+        return filtrados
+  }
+
+  useEffect(() => {
+    setGastosFiltrados(filtrarPorDia(gastos))
+                                                
+  }, [day]) 
+  
+  console.log(gastosFiltrados)
 
   const Item = ({ title }) => (
     <View style={styles.item}>
@@ -28,13 +57,17 @@ export default function Diario({ navigation, route }) {
   );
 
   return (
-    <View style={styles.parent}>
+    <View style={styles.parent}>      
       <View style={styles.topBar}>
-        <Ionicons name="chevron-back-sharp" size={30} color="#006600" />
+        <TouchableOpacity onPress={() => setDay(prev => prev - 1)}>
+          <Ionicons name="chevron-back-sharp" size={30} color="#006600" />
+        </TouchableOpacity>
         <Text>
-          Hoy
+          {day}
         </Text>
-        <Ionicons name="chevron-forward-sharp" size={30} color="#006600" />
+        <TouchableOpacity onPress={() => setDay(prev => prev + 1)}>
+          <Ionicons name="chevron-forward-sharp" size={30} color="#006600" />
+        </TouchableOpacity>
       </View>
 
       <View style={styles.container}>
@@ -48,7 +81,7 @@ export default function Diario({ navigation, route }) {
               </TouchableOpacity> */}
 
         <SectionList
-          sections={gastos}
+          sections={gastosFiltrados}
           keyExtractor={(item, index) => item + index}
           renderItem={({ item }) => <Item title={item} />}
           renderSectionHeader={({ section: { title } }) => (
