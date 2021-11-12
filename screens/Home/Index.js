@@ -59,7 +59,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#DDDDDD",
     padding: 10
   },
-
   topFive: {
     width: Dimensions.get('window').width,
     backgroundColor: "#DDDDDD",

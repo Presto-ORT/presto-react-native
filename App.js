@@ -3,11 +3,14 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import BottomTabsNavigator from './components/BottomTabsNavigator';
+import StackNavigator from "./components/StackNavigator";
+
 
 export default function App() {
   return (
     <NavigationContainer>
-      <BottomTabsNavigator />
+      <StackNavigator />
+      {/* <BottomTabsNavigator /> */}
     </NavigationContainer>
   );
 }
