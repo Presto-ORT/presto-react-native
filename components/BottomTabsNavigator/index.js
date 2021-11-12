@@ -1,9 +1,9 @@
 import React from 'react';
 import { Button } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Home from '../screens/Home/Index.js';
-import Diario from '../screens/Diario/Index.js';
-import Reportes from '../screens/Reportes/Index.js';
+import Home from '../../screens/Home/Index.js';
+import Diario from '../../screens/Diario/Index.js';
+import Reportes from '../../screens/Reportes/Index.js';
 import { Ionicons } from "@expo/vector-icons";
 
 export default function BottomTabsNavigator() {
