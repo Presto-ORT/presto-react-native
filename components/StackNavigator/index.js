@@ -21,7 +21,7 @@ export default function StackNavigator() {
                         ? (
                             <>
                                 <Stack.Screen name={'Main'} component={BottomTabsNavigator} />
-                                <Stack.Screen name={'Agregar registro'} component={AddRecord} options={{ headerShown: true }} />
+                                <Stack.Screen name={'Agregar registro'} component={AddRecord} options={{ headerShown: true, headerBackTitle: 'Volver' }} />
                             </>
                         )
                         : (
