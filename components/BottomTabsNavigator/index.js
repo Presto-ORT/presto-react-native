@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '../../screens/Home/Index.js';
 import Diario from '../../screens/Diario/Index.js';
@@ -12,16 +13,19 @@ export default function BottomTabsNavigator() {
     return (
         <Tabs.Navigator>
             <Tabs.Screen name={'Home'} component={Home} options={{
+                headerRight: () => <Button title={'+'} />,
                 tabBarIcon: ({ tintColor }) => (
                     <Ionicons name="md-home" size={30} color="#900" />
                 )
             }} />
             <Tabs.Screen name={'Diario'} component={Diario} options={{
+                headerRight: () => <Button title={'+'} />,
                 tabBarIcon: ({ tintColor }) => (
                     <Ionicons name="book" size={30} color="#900" />
                 )
             }} />
             <Tabs.Screen name={'Reportes'} component={Reportes} options={{
+                headerRight: () => <Button title={'+'} />,
                 tabBarIcon: ({ tintColor }) => (
                     <Ionicons name="pie-chart-sharp" size={30} color="#900" />
                 )

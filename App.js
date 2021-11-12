@@ -5,6 +5,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import BottomTabsNavigator from './components/BottomTabsNavigator';
 import StackNavigator from "./components/StackNavigator";
 
+
 export default function App() {
   return (
     <NavigationContainer>
