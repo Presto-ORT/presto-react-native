@@ -1,16 +1,37 @@
 import React, { useState } from 'react';
 import { StyleSheet, Image, Text, View, TouchableOpacity, Dimensions } from 'react-native';
 import { Ionicons } from "@expo/vector-icons";
-
+import * as ImagePicker from 'expo-image-picker';
 export default function Home({ navigation }) {
 
   const [datos, setDatos] = useState("Hola soy datos")
+  const [userImage, setUserImage] = useState(null)
+
+  let openPicker = async () => {
+     
+    let permission = await ImagePicker.requestMediaLibraryPermissionsAsync()
+
+    if (!permission.granted){
+      alert('Se requiere permisos para acceder al recurso')
+      return
+    }
+      const result = await ImagePicker.launchImageLibraryAsync()
+
+      if(result.cancelled){
+        return
+      }
+
+      setUserImage({localUri: result.uri})
+  }
 
   return (
     <View style={styles.container}>
-      <View style={styles.userArea} >
-        <Image style={styles.userImage} source={require('../../Data/images/lionel-messi.jpg')}/>
+      <View style={styles.userArea} >        
+        <Image style={styles.userImage} source={{uri: userImage != null ? userImage.localUri : 'https://img.olympicchannel.com/images/image/private/t_1-1_600/f_auto/v1538355600/primary/wfrhxc0kh2vvq77sonki'}}/>
         
+        <TouchableOpacity onPress={openPicker}>
+         <Text styles={{color:'white'}}>Editar foto</Text>
+        </TouchableOpacity>
       </View>
 
       <View style={styles.topFive}>
@@ -87,7 +108,7 @@ const styles = StyleSheet.create({
   topFiveHeader: {
     flexDirection: "row",
     justifyContent: "space-between",  
-    backgroundColor: "#FFF"
+    backgroundColor: "#FFF",
   },
 
   topFiveCategory: {
