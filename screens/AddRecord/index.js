@@ -14,9 +14,7 @@ import {
 
  
 export default function AddRecord({ navigation }) {
-
-
-
+    
     const [amount, setAmount] = useState();
     const [description, setDescription] = useState();
     const [expense, setExpense] = useState();
