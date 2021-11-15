@@ -9,7 +9,7 @@ export default function StackNavigator() {
 
     const Stack = createStackNavigator()
 
-    const [token, setToken] = useState(false);
+    const [token, setToken] = useState('');
 
     const isAuthenticated = () => token;
 
