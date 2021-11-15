@@ -1,12 +1,25 @@
 import React, { useContext } from 'react';
 import { Button, StyleSheet, View, TextInput } from 'react-native';
 import GlobalContext from "../../components/globals/context";
+import { register } from '../../api/users';
 
 export default function Register({ props }) {
 
     const { nombre, setNombre, email, setEmail, password, setPassword, setShowLogin, resetData } = props
 
     const { setToken } = useContext(GlobalContext)
+
+    const userRegister = async (nombre, email, password) => {
+        if (!nombre || !email || !password) return;
+
+        let response = await register(nombre, email, password);
+
+        if (response.accessToken) {
+            setToken(response.accessToken);
+        } else if (response._id) {
+            setToken(response._id);
+        }
+    }
 
     return (
         <View style={styles.container}>
@@ -28,7 +41,9 @@ export default function Register({ props }) {
 
             <Button
                 title={'Registrarme'}
-                onPress={() => { setToken(true); }}
+                onPress={() => {
+                    userRegister(nombre, email, password);
+                }}
             />
             <Button
                 title={'Ya tengo cuenta'}
