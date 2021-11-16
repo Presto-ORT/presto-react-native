@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
+import { retrieveToken } from '../../services/internalStorage';
 import BottomTabsNavigator from "../BottomTabsNavigator";
 import Auth from "../Auth";
 import AddRecord from "../../screens/AddRecord";
@@ -12,6 +13,12 @@ export default function StackNavigator() {
     const [token, setToken] = useState('');
 
     const isAuthenticated = () => token;
+
+    useEffect(async () => {
+        let token = await retrieveToken();
+        console.log('use effect', token);
+        setToken(token);
+    }, [])
 
     return (
         <GlobalContext.Provider value={{ token, setToken }}>

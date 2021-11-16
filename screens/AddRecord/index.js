@@ -21,7 +21,7 @@ import { set } from 'react-native-reanimated';
 
 
 export default function AddRecord({ navigation }) {
-    
+
     const [amount, setAmount] = useState();
     const [description, setDescription] = useState();
     const [expense, setExpense] = useState();
@@ -65,13 +65,13 @@ export default function AddRecord({ navigation }) {
     const showMode = (currentMode) => {
         setShow(true);
         setMode(currentMode);
-      };
-    
-    const showDatepicker = () => {
-    showMode('date');
     };
 
-    const handleEnviarRegistro = () => {
+    const showDatepicker = () => {
+        showMode('date');
+    };
+
+    const handleEnviarRegistro = async () => {
         const registro = {
             date,
             category,
@@ -79,10 +79,12 @@ export default function AddRecord({ navigation }) {
             amount,
             pesos,
             description,
-            user
         }
 
-        console.log(registro)
+        if (!registro.date || !registro.category || !registro.subCategory || !registro.amount) return;
+
+        await saveRecord(registro);
+        navigation.navigate('Diario');
     }
 
 
@@ -90,15 +92,15 @@ export default function AddRecord({ navigation }) {
     return (
         <View style={styles.container}>
             <View style={styles.formContainer}>
-            <View>
-                <TouchableHighlight>
-                    <Text
-                    style={styles.textInput} 
-                    onPress={showDatepicker}>
-                        {dateToShow == "" ? "Ingresar fecha del gasto" : dateToShow}
-                    </Text>
-                </TouchableHighlight>
-            </View>
+                <View>
+                    <TouchableHighlight>
+                        <Text
+                            style={styles.textInput}
+                            onPress={showDatepicker}>
+                            {dateToShow == "" ? "Ingresar fecha del gasto" : dateToShow}
+                        </Text>
+                    </TouchableHighlight>
+                </View>
                 {show && <DateTimePicker
                     style={styles.width}
                     maximumDate = {new Date()}
@@ -138,7 +140,7 @@ export default function AddRecord({ navigation }) {
                     </Picker>
                 </TouchableWithoutFeedback>
                 <View style={styles.width, styles.montoTipo}>
-                    <TextInput 
+                    <TextInput
                         style={styles.textInput}
                         placeholder="Ingresar el valor"
                         value={amount}
@@ -149,9 +151,9 @@ export default function AddRecord({ navigation }) {
                         trackColor={{ false: '#a0a3a8', true: '#a0a3a8' }}
                         thumbColor={pesos ? '#4a628a' : '#f4f3f4'}
                         ios_backgroundColor="#3e3e3e"
-                        onChange={() => {setPesos(!pesos)}}
+                        onChange={() => { setPesos(!pesos) }}
                         value={pesos}
-                        
+
                     />
                 </View>
                 <TextInput
@@ -169,38 +171,38 @@ export default function AddRecord({ navigation }) {
             </View>
         </View>
     );
-    
+
 }
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: '#fff',
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#fff',
     },
     formContainer: {
-      padding: 8,
-      flex: 1
+        padding: 8,
+        flex: 1
     },
-    width:{
+    width: {
         width: Dimensions.get('window').width - 35,
     },
     button: {
-      backgroundColor: 'red',
+        backgroundColor: 'red',
     },
-    picker:{ 
-        height: 25, 
-        width: 100 
+    picker: {
+        height: 25,
+        width: 100
     },
     montoTipo: {
         flexDirection: 'row',
         justifyContent: 'space-between'
     },
-    textInput:{
+    textInput: {
         fontSize: 16
     },
-    inputDescripcion:{
+    inputDescripcion: {
         height: 110
     }
-  });
+});

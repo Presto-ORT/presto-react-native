@@ -14,11 +14,7 @@ export default function Register({ props }) {
 
         let response = await register(nombre, email, password);
 
-        if (response.accessToken) {
-            setToken(response.accessToken);
-        } else if (response._id) {
-            setToken(response._id);
-        }
+        if (response.accessToken) setToken(response.accessToken);
     }
 
     return (
@@ -31,7 +27,7 @@ export default function Register({ props }) {
             <TextInput
                 value={email}
                 placeholder={'Email'}
-                onChangeText={(value) => { setEmail(value) }}
+                onChangeText={(value) => { setEmail(value.toLowerCase()) }}
             />
             <TextInput
                 value={password}
