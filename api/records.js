@@ -13,6 +13,16 @@ const getRecords = async () => {
     return response.data;
 }
 
+const getRecord = async (id) => {
+    const url = `${BASE_URL}/records/${id}`
+
+    let token = await retrieveToken();
+
+    let response = await axios.get(url, { headers: { 'Authorization': `Bearer ${token}` } });
+
+    return response.data;
+}
+
 const saveRecord = async (record) => {
     console.log('save record');
     const url = `${BASE_URL}/records`
