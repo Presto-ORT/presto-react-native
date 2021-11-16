@@ -22,7 +22,7 @@ export default function Register({ props }) {
             <TextInput
                 value={nombre}
                 placeholder={'Nombre'}
-                onChangeText={(value) => { setNombre(value) }}
+                onChangeText={(value) => { setNombre(value.toLowerCase()) }}
             />
             <TextInput
                 value={email}
