@@ -24,5 +24,27 @@ const saveRecord = async (record) => {
     return response.data;
 }
 
+const updateRecord = async (record) => {
+    console.log('save record');
+    const url = `${BASE_URL}/records/${record.id}`
+
+    let token = await retrieveToken();
+
+    let response = await axios.put(url, { record: record }, { headers: { 'Authorization': `Bearer ${token}` } });
+
+    return response.data;
+}
+
+const deleteRecord = async (id) => {
+    console.log('save record');
+    const url = `${BASE_URL}/records/${id}`
+
+    let token = await retrieveToken();
+
+    let response = await axios.delete(url, { headers: { 'Authorization': `Bearer ${token}` } });
+
+    return response.data;
+}
+
 
 export { getRecords, saveRecord }
