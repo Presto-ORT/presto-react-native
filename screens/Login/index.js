@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { Button, StyleSheet, View, TextInput } from 'react-native';
+import { saveToken } from '../../services/internalStorage';
 import GlobalContext from "../../components/globals/context";
 import { login } from '../../api/users';
 
@@ -9,16 +10,18 @@ export default function Login({ props }) {
 
     const { setToken } = useContext(GlobalContext)
 
+    const storeToken = async (token) => {
+        if (!token) return;
+        await saveToken(token);
+        setToken(token);
+    }
+
     async function userLlogin(email, password) {
         if (!email || !password) return;
 
         let response = await login(email, password);
 
-        if (response.accessToken) {
-            setToken(response.accessToken);
-        } else if (response._id) {
-            setToken(response._id);
-        }
+        if (response.accessToken) storeToken(response.accessToken);
     }
 
     return (
