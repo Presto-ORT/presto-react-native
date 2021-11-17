@@ -1,22 +1,38 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { PieChartExample } from './PieChart';
+import { getReport } from "../../api/reports";
 
 export default function Reportes() {
-  const data = [2890.43, 734.17, 8300, 1200, 90, 7000]
+  const [report, setReport] = useState([])
+  const [total, setTotal] = useState(0)
 
+  const randomColor = () => ('#' + ((Math.random() * 0xffffff) << 0).toString(16) + '000000').slice(0, 7)
+
+  useEffect(async () => {
+    let data = await getReport();
+
+    data.forEach(element => {
+      element.color = randomColor();
+    });
+    let total = data.reduce((previous, current) => { return previous + current.total }, 0);
+
+    console.log(data);
+
+    setReport(data);
+    setTotal(total);
+    return () => { }
+  }, []);
 
   return (
     <View style={styles.container}>
       <View style={styles.container}>
-        <PieChartExample tamanio={200} datos={data} />
+        <PieChartExample tamanio={200} data={report} />
       </View>
       <View style={styles.list}>
-        <Text style={styles.titulo}>Transporte    $2890   35%</Text>
-        <Text style={styles.titulo}>Alimentacion  $8300   44%</Text>
-        <Text style={styles.titulo}>Educacion     $7000   29%</Text>
-        <Text style={styles.titulo}>Salud         $1200   15%</Text>
-        <Text style={styles.titulo}>Entretenimiento   $734   4%</Text>
+        {
+          report.map((data) => <Text style={styles.titulo}>{`${data.color} ${data.category} $${(data.total).toFixed(2)} ${((data.total * 100) / total).toFixed(2)}%`}</Text>)
+        }
       </View>
 
     </View>
