@@ -2,19 +2,32 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, SectionList } from 'react-native';
 import { Ionicons } from "@expo/vector-icons";
 import { gastos } from "../../Data/mockupData.js"
+import axios from "axios";
+import {deleteRecord} from "../../api/records"
+
 
 export default function Diario({ navigation, route }) {
 
 
   const [datos, setDatos] = useState("")
   const [day, setDay] = useState(3)
-  const [gastosFiltrados, setGastosFiltrados] = useState(gastos)
+  const [gastosFiltrados, setGastosFiltrados] = useState([])
 
+  useEffect(async () => {
+    
+    let response = await axios.get("http://192.168.0.206:3000/records")
+    let registros = response.data;
+    let mapa = new Map()
 
-  /*   useEffect(() => {
-      setGastosFiltrados(gastos.filter((categoria) => categoria.data.filter((registro) => registro.fecha == day)))
-    }, [day])
-   */
+    registros.forEach( elemento => { mapa[elemento.category || "Uncategorized"] = (mapa[elemento.category || "Uncategorized"] || []).concat([{fecha: elemento.date, importe: elemento.amount, subcategoria: elemento.description, id: elemento._id}]) } )
+
+    var resultado = Object.entries(mapa).map( x => ({title: x[0], data: x[1]}) )
+    
+    console.log(resultado)
+
+    setGastosFiltrados(resultado)
+  }, [])
+
 
   useEffect(() => {
     if (route.params) {
@@ -30,24 +43,18 @@ export default function Diario({ navigation, route }) {
         if (otroGato[i].data[j].fecha === day)
           filtrados.push(otroGato[i])
       }
-    }
-
-    //no me salio con filter ni con map, refactorizar por favor
+    }    
 
     return filtrados
   }
 
-  useEffect(() => {
-    setGastosFiltrados(filtrarPorDia(gastos))
-
-  }, [day])
 
   const Item = ({ title }) => (
     <View style={styles.item}>
-      <Text style={styles.title}>{title.nombre}</Text>
+      <Text style={styles.title}>{title.subcategoria}</Text>
       <View style={{ flexDirection: "row", alignItems: 'center' }}>
-        <Text style={styles.innerTitle}>${title.precio}</Text>
-        <Ionicons name="trash-outline" size={20} color="#000" />
+        <Text style={styles.innerTitle}>${title.importe}</Text>
+        <Ionicons name="trash-outline" size={20} color="#000" onPress={() => deleteRecord(title._id)}/>
       </View>
 
     </View>
@@ -69,14 +76,6 @@ export default function Diario({ navigation, route }) {
 
       <View style={styles.container}>
 
-        {/* <Text>Hola Mundo desde Diario!</Text>     
-            <Text>{datos}</Text>     
-              <TouchableOpacity 
-                style={styles.button}
-                onPress={() => setDatos("CAMBIADO")}>
-                <Text>Cambio datos</Text>
-              </TouchableOpacity> */}
-
         <SectionList
           sections={gastosFiltrados}
           keyExtractor={(item, index) => item + index}
@@ -84,7 +83,7 @@ export default function Diario({ navigation, route }) {
           renderSectionHeader={({ section: { title } }) => (
             <Text style={styles.header}>{title}</Text>
           )}
-        />
+        />        
       </View>
     </View>
   );

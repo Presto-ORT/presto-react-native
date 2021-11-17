@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = 'http://192.168.0.28:3000';
+const BASE_URL = 'http://192.168.0.206:3000';
 
 const getExample = async () => {
     const url = "https://api2.binance.com/api/v3/ticker/24hr";
