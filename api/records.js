@@ -24,7 +24,6 @@ const getRecord = async (id) => {
 }
 
 const saveRecord = async (record) => {
-    console.log('save record');
     const url = `${BASE_URL}/records`
 
     let token = await retrieveToken();
@@ -35,7 +34,6 @@ const saveRecord = async (record) => {
 }
 
 const updateRecord = async (record) => {
-    console.log('save record');
     const url = `${BASE_URL}/records/${record.id}`
 
     let token = await retrieveToken();
@@ -46,7 +44,6 @@ const updateRecord = async (record) => {
 }
 
 const deleteRecord = async (id) => {
-    console.log('save record');
     const url = `${BASE_URL}/records/${id}`
 
     let token = await retrieveToken();

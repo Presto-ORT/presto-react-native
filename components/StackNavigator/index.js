@@ -16,7 +16,6 @@ export default function StackNavigator() {
 
     useEffect(async () => {
         let token = await retrieveToken();
-        console.log('use effect', token);
         setToken(token);
     }, [])
 

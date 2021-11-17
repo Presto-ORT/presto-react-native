@@ -10,8 +10,7 @@ const retrieveToken = async () => {
 }
 
 const removeToken = async () => {
-    let result = await SecureStore.deleteItemAsync('accessToken');
-    console.log(result);
+    await SecureStore.deleteItemAsync('accessToken');
 }
 
 export { saveToken, retrieveToken, removeToken }

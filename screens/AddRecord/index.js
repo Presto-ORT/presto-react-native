@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { getCategories } from '../../api/categories';
-import { 
-    StyleSheet, 
-    Text, 
+import {
+    StyleSheet,
+    Text,
     View,
     TextInput,
     TouchableHighlight,
@@ -14,10 +14,10 @@ import {
     Dimensions,
     Platform,
     Keyboard
- } from 'react-native';
+} from 'react-native';
 import { set } from 'react-native-reanimated';
 
- 
+
 
 
 export default function AddRecord({ navigation }) {
@@ -33,23 +33,21 @@ export default function AddRecord({ navigation }) {
     const [pesos, setPesos] = useState(true);
     const [user, setUser] = useState();
     const [show, setShow] = useState(false);
-    const [categories,setCategories] = useState([]);
-    
+    const [categories, setCategories] = useState([]);
 
-  
-    useEffect(async ()=>{
-        try{
+
+
+    useEffect(async () => {
+        try {
             let response = await getCategories();
-            console.log(response)
             setCategories(response);
-        }catch{
-            console.log("No se pudo completar")
+        } catch {
+
         }
 
-    },[])
+    }, [])
 
     const handleChangeDate = (e, selectedDate) => {
-        console.log(selectedDate)
         setShow(Platform.OS === 'ios');
         setDate(selectedDate)
         dateFormatter(selectedDate)
@@ -88,7 +86,7 @@ export default function AddRecord({ navigation }) {
     }
 
 
-    
+
     return (
         <View style={styles.container}>
             <View style={styles.formContainer}>
@@ -103,7 +101,7 @@ export default function AddRecord({ navigation }) {
                 </View>
                 {show && <DateTimePicker
                     style={styles.width}
-                    maximumDate = {new Date()}
+                    maximumDate={new Date()}
                     testID="dateTimePicker"
                     value={date}
                     mode={"date"}
@@ -112,17 +110,17 @@ export default function AddRecord({ navigation }) {
                     onChange={handleChangeDate}
                 />
                 }
-                <TouchableWithoutFeedback onPress={() => Keyboard.dismis }>
+                <TouchableWithoutFeedback onPress={() => Keyboard.dismis}>
                     <Picker
                         style={styles.picker, styles.width}
                         selectedValue={category}
                         onValueChange={(itemValue) => setCategory(itemValue)}
                     >
-                        {categories.length > 0 && categories.map(c => 
-                            <Picker.Item 
-                            placeholder="Ingrese una categoria"
-                            label={c.title} 
-                            value={c.title} />
+                        {categories.length > 0 && categories.map(c =>
+                            <Picker.Item
+                                placeholder="Ingrese una categoria"
+                                label={c.title}
+                                value={c.title} />
                         )}
                     </Picker>
                 </TouchableWithoutFeedback>
@@ -133,9 +131,9 @@ export default function AddRecord({ navigation }) {
                         onValueChange={(itemValue) => setSubCategory(itemValue)}
                     >
                         {category &&
-                        categories.filter(c => c.title === category)[0].subcategory.map(fc => 
-                            <Picker.Item label={fc.title} value={fc.title} />
-                        )
+                            categories.filter(c => c.title === category)[0].subcategory.map(fc =>
+                                <Picker.Item label={fc.title} value={fc.title} />
+                            )
                         }
                     </Picker>
                 </TouchableWithoutFeedback>
