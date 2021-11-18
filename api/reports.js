@@ -1,7 +1,7 @@
 import axios from "axios";
 import { retrieveToken } from "../services/internalStorage";
 
-const BASE_URL = 'http://192.168.0.28:3000';
+const BASE_URL = 'http://192.168.0.206:3000';
 
 const getReport = async () => {
     const url = `${BASE_URL}/reports`
