@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, SectionList } from 'react-native';
 import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
-import {deleteRecord} from "../../api/records"
+import {deleteRecord} from "../../api/records";
+import { retrieveToken } from "../../services/internalStorage";
 
 
 export default function Diario({ navigation, route }) {
@@ -17,7 +18,10 @@ export default function Diario({ navigation, route }) {
     const month = today.getMonth()
     const year = today.getFullYear()
 
-    let response = await axios.get(`http://192.168.0.206:3000/records?day=${day}&month=${month}&year=${year}`)
+    let token = await retrieveToken();
+
+    let response = await axios.get(`http://192.168.0.206:3000/records?day=${day}&month=${month}&year=${year}`, { headers: { 'Authorization': `Bearer ${token}` } })
+
     let registros = response.data;
     console.log(registros)
     console.log(day,month,year)

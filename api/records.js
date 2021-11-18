@@ -8,7 +8,7 @@ const getRecords = async () => {
     const url = `${BASE_URL}/records`
 
     let token = await retrieveToken();
-
+    
     let response = await axios.get(url, { headers: { 'Authorization': `Bearer ${token}` } });
 
     return response.data;
@@ -30,7 +30,7 @@ const saveRecord = async (record) => {
     let token = await retrieveToken();
 
     let response = await axios.post(url, { record: record }, { headers: { 'Authorization': `Bearer ${token}` } });
-
+    
     return response.data;
 }
 
