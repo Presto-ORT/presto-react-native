@@ -96,9 +96,9 @@ export default function AddRecord({ navigation }) {
             description,
             expense
         }
-
-        if (!registro.date || !registro.category || !registro.subCategory || !registro.amount) return;
-
+        
+        if (!registro.date || !registro.category || !registro.sub || !registro.amount) return;
+        
         try{
             await saveRecord(registro);
             console.log("se registró")
