@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { getCategories } from '../../api/categories';
+import { saveRecord } from "../../api/records";
 import {
     StyleSheet,
     Text,
@@ -15,7 +16,6 @@ import {
     Platform,
     Keyboard
 } from 'react-native';
-import { set } from 'react-native-reanimated';
 
 
 
@@ -116,8 +116,9 @@ export default function AddRecord({ navigation }) {
                         selectedValue={category}
                         onValueChange={(itemValue) => setCategory(itemValue)}
                     >
-                        {categories.length > 0 && categories.map(c =>
+                        {categories.length > 0 && categories.map((c, i) =>
                             <Picker.Item
+                                key={i}
                                 placeholder="Ingrese una categoria"
                                 label={c.title}
                                 value={c.title} />
@@ -131,8 +132,8 @@ export default function AddRecord({ navigation }) {
                         onValueChange={(itemValue) => setSubCategory(itemValue)}
                     >
                         {category &&
-                            categories.filter(c => c.title === category)[0].subcategory.map(fc =>
-                                <Picker.Item label={fc.title} value={fc.title} />
+                            categories.filter(c => c.title === category)[0].subcategory.map((fc, i) =>
+                                <Picker.Item key={i} label={fc.title} value={fc.title} />
                             )
                         }
                     </Picker>
