@@ -40,8 +40,6 @@ export default function AddRecord({ navigation }) {
         try {
             let response = await getCategories();
             setCategories(response);
-            setCategory(response[0].category)
-            setSubCategory(response[0].subcategory[0])
             setLoading(false);
         } catch {
 
@@ -148,6 +146,7 @@ export default function AddRecord({ navigation }) {
                             selectedValue={category}
                             onValueChange={(itemValue) => setCategory(itemValue)}
                         >
+                            <Picker.Item label={"Ingresar una Categoría"} value={""}/>
                             {categories.length > 0 && categories.map((c,i) =>
                                 <Picker.Item
                                     label={c.title}
@@ -162,6 +161,7 @@ export default function AddRecord({ navigation }) {
                             selectedValue={subCategory}
                             onValueChange={(itemValue) => setSubCategory(itemValue)}
                         >
+                            <Picker.Item label={"Ingresar una Subcategoría"} value={""}/>
                             {category &&
                                 categories.filter(c => c.title === category)[0].subcategory.map((fc,i) =>
                                     <Picker.Item 
@@ -193,7 +193,7 @@ export default function AddRecord({ navigation }) {
                     {errorAmount !== "" && <Text style={{marginBottom:25, color:"red"}}> {errorAmount} </Text>}
                     <TextInput
                         style={[styles.width, styles.textInput]}
-                        placeholder="Ingresar la descripción"
+                        placeholder="Ingresar una descripción"
                         value={description}
                         multiline={true}
                         onChangeText={(value) => setDescription(value)}
