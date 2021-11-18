@@ -1,10 +1,28 @@
-import React, { useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { Button, StyleSheet, View, TextInput } from 'react-native';
+import * as Google from 'expo-auth-session/providers/google';
 import { saveToken } from '../../services/internalStorage';
 import GlobalContext from "../../components/globals/context";
-import { login } from '../../api/users';
+import { login, googleLogin } from '../../api/users';
 
 export default function Login({ props }) {
+    // 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
+    const [request, response, promptAsync] = Google.useAuthRequest({
+        expoClientId: '1080675808694-a6chgpmt4hrcsa46fmgtr29502l83q0b.apps.googleusercontent.com',
+        iosClientId: 'GOOGLE_GUID.apps.googleusercontent.com',
+        androidClientId: 'GOOGLE_GUID.apps.googleusercontent.com',
+        webClientId: 'GOOGLE_GUID.apps.googleusercontent.com',
+    });
+
+    useEffect(async () => {
+        if (response?.type === 'success') {
+            const { authentication } = response;
+
+            let data = await googleLogin(authentication.accessToken)
+
+            storeToken(data.accessToken);
+        }
+    }, [response]);
 
     const { email, setEmail, password, setPassword, setShowLogin, resetData } = props
 
@@ -37,6 +55,13 @@ export default function Login({ props }) {
                 onChangeText={(value) => { setPassword(value); }}
             />
 
+            <Button
+                disabled={!request}
+                title="Google Log In"
+                onPress={() => {
+                    promptAsync();
+                }}
+            />
             <Button
                 title={'Iniciar Sesion'}
                 onPress={async () => {
