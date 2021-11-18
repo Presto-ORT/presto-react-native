@@ -17,8 +17,6 @@ export default function Reportes() {
     });
     let total = data.reduce((previous, current) => { return previous + current.total }, 0);
 
-    console.log(data);
-
     setReport(data);
     setTotal(total);
     return () => { }
@@ -31,16 +29,15 @@ export default function Reportes() {
       </View>
       <View style={styles.list}>
         {
-          report.map((data) => 
-            <View style={styles.dataRow}>
-              <View style={{backgroundColor: data.color, width: 30, heigh: 30, borderRadius: 100, margin: 10}}><Text></Text></View>
+          report.map((data, index) =>
+            <View style={styles.dataRow} key={index}>
+              <View style={{ backgroundColor: data.color, width: 30, heigh: 30, borderRadius: 100, margin: 10 }}><Text></Text></View>
               <Text style={styles.titulo}>{`${data.category} $${(data.total).toFixed(2)} ${((data.total * 100) / total).toFixed(2)}%`}</Text>
-              
             </View>)
-            
+
         }
       </View>
-      
+
     </View>
   );
 }
