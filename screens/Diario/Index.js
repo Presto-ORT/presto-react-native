@@ -11,6 +11,7 @@ export default function Diario({ navigation, route }) {
 
   const [today, setToday] = useState(new Date())  
   const [gastosFiltrados, setGastosFiltrados] = useState([])
+  const [isDeleted, setIsDeleted] = useState(false)  
 
   useEffect(async () => {
     const day = today.getDate()
@@ -23,14 +24,14 @@ export default function Diario({ navigation, route }) {
     console.log(day,month,year)
     let mapa = new Map()
 
-    registros.forEach( elemento => { mapa[elemento.category || "Uncategorized"] = (mapa[elemento.category || "Uncategorized"] || []).concat([{fecha: elemento.date, importe: elemento.amount, subcategoria: elemento.description, _id: elemento._id}]) } )
+    registros.forEach( elemento => { mapa[elemento.category || "Uncategorized"] = (mapa[elemento.category || "Uncategorized"] || []).concat([{fecha: elemento.date, importe: elemento.amount, subcategoria: elemento.sub, _id: elemento._id}]) } )
 
     var resultado = Object.entries(mapa).map( x => ({title: x[0], data: x[1]}) )
     
     console.log(resultado)
 
     setGastosFiltrados(resultado)
-  }, [today])
+  }, [today, isDeleted])
 
   useEffect(() => {
     if (route.params) {
@@ -44,7 +45,7 @@ export default function Diario({ navigation, route }) {
       <Text style={styles.title}>{title.subcategoria}</Text>
       <View style={{ flexDirection: "row", alignItems: 'center' }}>
         <Text style={styles.innerTitle}>${title.importe}</Text>
-        <TouchableOpacity onPress={() => deleteRecord(title._id)}>
+        <TouchableOpacity onPress={() => {deleteRecord(title._id); setIsDeleted(!isDeleted)}}>
         <Ionicons name="trash-outline" size={20} color="#000"/>
         </TouchableOpacity>
       </View>
