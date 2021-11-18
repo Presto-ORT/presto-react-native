@@ -91,7 +91,7 @@ export default function AddRecord({ navigation }) {
             date,
             category,
             sub: subCategory,
-            amount,
+            amount: parseFloat(amount),
             dolar: !pesos,
             description,
             expense
