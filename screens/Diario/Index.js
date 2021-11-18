@@ -9,17 +9,19 @@ import {deleteRecord} from "../../api/records"
 export default function Diario({ navigation, route }) {
 
 
-  const [datos, setDatos] = useState("")
-  const [day, setDay] = useState(3)
+  const [today, setToday] = useState(new Date())  
   const [gastosFiltrados, setGastosFiltrados] = useState([])
 
   useEffect(async () => {
-    
-    let response = await axios.get("http://192.168.0.206:3000/records")
+    const day = today.getDate()
+    const month = today.getMonth()
+    const year = today.getFullYear()
+
+    let response = await axios.get(`http://localhost:3000/records`)
     let registros = response.data;
     let mapa = new Map()
 
-    registros.forEach( elemento => { mapa[elemento.category || "Uncategorized"] = (mapa[elemento.category || "Uncategorized"] || []).concat([{fecha: elemento.date, importe: elemento.amount, subcategoria: elemento.description, id: elemento._id}]) } )
+    registros.forEach( elemento => { mapa[elemento.category || "Uncategorized"] = (mapa[elemento.category || "Uncategorized"] || []).concat([{fecha: elemento.date, importe: elemento.amount, subcategoria: elemento.description, _id: elemento._id}]) } )
 
     var resultado = Object.entries(mapa).map( x => ({title: x[0], data: x[1]}) )
     
@@ -28,25 +30,11 @@ export default function Diario({ navigation, route }) {
     setGastosFiltrados(resultado)
   }, [])
 
-
   useEffect(() => {
     if (route.params) {
       setDatos(route.params.datos)
     }
   }, [route.params])
-
-  function filtrarPorDia(otroGato) {
-    var filtrados = [];
-
-    for (let i = 0; i < otroGato.length; i++) {
-      for (let j = 0; j < otroGato[i].data.length; j++) {
-        if (otroGato[i].data[j].fecha === day)
-          filtrados.push(otroGato[i])
-      }
-    }    
-
-    return filtrados
-  }
 
 
   const Item = ({ title }) => (
@@ -54,7 +42,9 @@ export default function Diario({ navigation, route }) {
       <Text style={styles.title}>{title.subcategoria}</Text>
       <View style={{ flexDirection: "row", alignItems: 'center' }}>
         <Text style={styles.innerTitle}>${title.importe}</Text>
-        <Ionicons name="trash-outline" size={20} color="#000" onPress={() => deleteRecord(title._id)}/>
+        <TouchableOpacity onPress={() => deleteRecord(title._id)}>
+        <Ionicons name="trash-outline" size={20} color="#000"/>
+        </TouchableOpacity>
       </View>
 
     </View>
@@ -63,13 +53,22 @@ export default function Diario({ navigation, route }) {
   return (
     <View style={styles.parent}>
       <View style={styles.topBar}>
-        <TouchableOpacity onPress={() => setDay(prev => prev - 1)}>
+        
+      <TouchableOpacity onPress={() => {
+            let nuevaFecha = today
+            nuevaFecha.setDate(nuevaFecha.getDate() -1)            
+            setToday(new Date(nuevaFecha))                    
+        }}>
           <Ionicons name="chevron-back-sharp" size={30} color="#006600" />
         </TouchableOpacity>
         <Text>
-          {day}
+          {today.getDate()}
         </Text>
-        <TouchableOpacity onPress={() => setDay(prev => prev + 1)}>
+        <TouchableOpacity onPress={() => {
+            let nuevaFecha = today
+            nuevaFecha.setDate(nuevaFecha.getDate() +1)
+            setToday(new Date(nuevaFecha))  
+        }}>
           <Ionicons name="chevron-forward-sharp" size={30} color="#006600" />
         </TouchableOpacity>
       </View>
