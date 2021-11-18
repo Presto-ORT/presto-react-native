@@ -31,10 +31,16 @@ export default function Reportes() {
       </View>
       <View style={styles.list}>
         {
-          report.map((data) => <Text style={styles.titulo}>{`${data.color} ${data.category} $${(data.total).toFixed(2)} ${((data.total * 100) / total).toFixed(2)}%`}</Text>)
+          report.map((data) => 
+            <View style={styles.dataRow}>
+              <View style={{backgroundColor: data.color, width: 30, heigh: 30, borderRadius: 100, margin: 10}}><Text></Text></View>
+              <Text style={styles.titulo}>{`${data.category} $${(data.total).toFixed(2)} ${((data.total * 100) / total).toFixed(2)}%`}</Text>
+              
+            </View>)
+            
         }
       </View>
-
+      
     </View>
   );
 }
@@ -56,6 +62,13 @@ const styles = StyleSheet.create({
   },
   titulo: {
     padding: 10
+
+  },
+
+  dataRow: {
+    flexDirection: 'row',
+    marginLeft: 10,
+    justifyContent: 'space-between'
 
   },
 

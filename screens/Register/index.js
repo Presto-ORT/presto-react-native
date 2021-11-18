@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import { Button, StyleSheet, View, TextInput } from 'react-native';
-import GlobalContext from "../../components/globals/context";
+import GlobalContext from "../../Components/globals/context";
 import { register } from '../../api/users';
+
 
 export default function Register({ props }) {
 

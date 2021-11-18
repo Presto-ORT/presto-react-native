@@ -17,7 +17,7 @@ export default function Diario({ navigation, route }) {
     const month = today.getMonth()
     const year = today.getFullYear()
 
-    let response = await axios.get(`http://localhost:3000/records?day=${day}&month=${month}&year=${year}`)
+    let response = await axios.get(`http://localhost:3000/records`)
     let registros = response.data;
     let mapa = new Map()
 
@@ -28,7 +28,7 @@ export default function Diario({ navigation, route }) {
     console.log(resultado)
 
     setGastosFiltrados(resultado)
-  }, [today])
+  }, [])
 
   useEffect(() => {
     if (route.params) {
