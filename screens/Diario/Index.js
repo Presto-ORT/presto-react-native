@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, SectionList } from 'react-native';
 import { Ionicons } from "@expo/vector-icons";
-import { gastos } from "../../Data/mockupData.js"
 import axios from "axios";
 import {deleteRecord} from "../../api/records"
 
@@ -11,7 +10,7 @@ export default function Diario({ navigation, route }) {
 
   const [today, setToday] = useState(new Date())  
   const [gastosFiltrados, setGastosFiltrados] = useState([])
-  const [isDeleted, setIsDeleted] = useState(false)  
+  const [isDeleted, setIsDeleted] = useState()  
 
   useEffect(async () => {
     const day = today.getDate()
@@ -31,14 +30,7 @@ export default function Diario({ navigation, route }) {
     console.log(resultado)
 
     setGastosFiltrados(resultado)
-  }, [today, isDeleted])
-
-  useEffect(() => {
-    if (route.params) {
-      setDatos(route.params.datos)
-    }
-  }, [route.params])
-
+  }, [today, isDeleted, route.params])
 
   const Item = ({ title }) => (
     <View style={styles.item}>

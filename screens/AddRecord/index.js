@@ -102,7 +102,7 @@ export default function AddRecord({ navigation }) {
         try{
             await saveRecord(registro);
             console.log("se registró")
-            navigation.navigate('Diario');
+            navigation.navigate('Diario', {enviado: true});
         }catch{
             console.log("No se pudo registrar.")
         }
