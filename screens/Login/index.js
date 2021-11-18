@@ -2,7 +2,7 @@ import React, { useEffect, useContext } from 'react';
 import { Button, StyleSheet, View, TextInput } from 'react-native';
 import * as Google from 'expo-auth-session/providers/google';
 import { saveToken } from '../../services/internalStorage';
-import GlobalContext from "../../Components/globals/context";
+import GlobalContext from "../../components/globals/context";
 import { login, googleLogin } from '../../api/users';
 import { SocialIcon } from 'react-native-elements'
 import{

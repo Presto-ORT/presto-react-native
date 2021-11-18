@@ -17,8 +17,10 @@ export default function Diario({ navigation, route }) {
     const month = today.getMonth()
     const year = today.getFullYear()
 
-    let response = await axios.get(`http://localhost:3000/records`)
+    let response = await axios.get(`http://192.168.0.206:3000/records?day=${day}&month=${month}&year=${year}`)
     let registros = response.data;
+    console.log(registros)
+    console.log(day,month,year)
     let mapa = new Map()
 
     registros.forEach( elemento => { mapa[elemento.category || "Uncategorized"] = (mapa[elemento.category || "Uncategorized"] || []).concat([{fecha: elemento.date, importe: elemento.amount, subcategoria: elemento.description, _id: elemento._id}]) } )
@@ -28,7 +30,7 @@ export default function Diario({ navigation, route }) {
     console.log(resultado)
 
     setGastosFiltrados(resultado)
-  }, [])
+  }, [today])
 
   useEffect(() => {
     if (route.params) {
