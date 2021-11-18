@@ -23,21 +23,21 @@ export default function BottomTabsNavigator({ navigation }) {
             <Tabs.Screen name={'Home'} component={Home} options={{
                 headerTitleAlign: "center",
                 headerLeft: () => <Button title={"Log out"} onPress={async () => { await logout() }} />,
-                headerRight: () => <Button title={'+'} onPress={() => { navigation.navigate('Agregar registro') }} />,
+                headerRight: () => <Button title={'Nuevo'} onPress={() => { navigation.navigate('Agregar registro') }} />,
                 tabBarIcon: ({ tintColor }) => (
                     <Ionicons name="md-home" size={30} color="#900" />
                 )
             }} />
             <Tabs.Screen name={'Diario'} component={Diario} options={{
                 headerTitleAlign: "center",
-                headerRight: () => <Button title={'+'} onPress={() => { navigation.navigate('Agregar registro') }} />,
+                headerRight: () => <Button title={'Nuevo'} onPress={() => { navigation.navigate('Agregar registro') }} />,
                 tabBarIcon: ({ tintColor }) => (
                     <Ionicons name="book" size={30} color="#900" />
                 )
             }} />
             <Tabs.Screen name={'Reportes'} component={Reportes} options={{
                 headerTitleAlign: "center",
-                headerRight: () => <Button title={'+'} onPress={() => { navigation.navigate('Agregar registro') }} />,
+                headerRight: () => <Button title={'Nuevo'} onPress={() => { navigation.navigate('Agregar registro') }} />,
                 tabBarIcon: ({ tintColor }) => (
                     <Ionicons name="pie-chart-sharp" size={30} color="#900" />
                 )

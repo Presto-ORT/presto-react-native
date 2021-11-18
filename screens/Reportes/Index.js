@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Dimensions } from 'react-native';
 import { PieChartExample } from './PieChart';
 import { getReport } from "../../api/reports";
 import {
   ActivityIndicator
 } from 'react-native'
 import { set } from 'react-native-reanimated';
+import { FlatList } from 'react-native-gesture-handler';
 
 export default function Reportes() {
   const [report, setReport] = useState([])
@@ -43,17 +44,23 @@ export default function Reportes() {
         <View style={styles.container}>
           <PieChartExample tamanio={200} data={report} />
         </View>
-        <View style={styles.list}>
-          {
-            report.map((data, index) =>
-              <View style={styles.dataRow} key={index}>
-                <View style={{ backgroundColor: data.color, width: 30, heigh: 30, borderRadius: 100, margin: 10 }}><Text></Text></View>
-                <Text style={styles.titulo}>{`${data.category} $${(data.total).toFixed(2)} ${((data.total * 100) / total).toFixed(2)}%`}</Text>
-              </View>)
-  
-          }
-        </View>
-  
+        
+          <View style={styles.list}>
+            <ScrollView>
+              {
+                report.map((data, index) =>
+                  <View style={styles.dataRow} key={index}>
+                    <View style={{ backgroundColor: data.color, width: 20, height: 20, borderRadius: 100 }}><Text></Text></View>
+                    <Text style={styles.titulo}>{`${data.category}`}</Text>
+                    <Text style={styles.numero}>{`$${(data.total).toFixed(2)}`}</Text>
+                    <Text style={styles.numero}>{`${((data.total * 100) / total).toFixed(2)}%`}</Text>
+                    
+                  </View>)
+      
+              }
+            </ScrollView>
+          </View>
+        
       </View>
     );
   }
@@ -66,7 +73,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    width: Dimensions.get("window").width
   },
   loadingStyle: {
     position: 'absolute',
@@ -80,21 +88,25 @@ const styles = StyleSheet.create({
   list: {
     flex: 1,
     alignItems: "flex-start",
-    justifyContent: 'center',
-    width: 400,
+    justifyContent: 'space-between',
+    width: Dimensions.get("window").width-40,
     paddingBottom: 30,
 
   },
-  titulo: {
-    padding: 10
-
+  numero: {    
+    textAlign: 'right',
+    alignSelf: 'flex-end',
+    flex: 1
+  },
+  titulo: {     
+    flex: 2
   },
 
   dataRow: {
-    flexDirection: 'row',
-    marginLeft: 10,
-    justifyContent: 'space-between'
-
+    flexDirection: 'row',    
+    justifyContent: 'space-between',
+    width: Dimensions.get("window").width-40,
+    marginBottom:10
   },
 
 });
