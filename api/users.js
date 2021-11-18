@@ -24,4 +24,12 @@ const login = async (email, password) => {
     return response.data;
 }
 
-export { getExample, login, register }
+const googleLogin = async (accessToken) => {
+    const url = `${BASE_URL}/users/login/google`
+
+    let response = await axios.post(url, { accessToken });
+
+    return response.data;
+}
+
+export { getExample, login, googleLogin, register }
