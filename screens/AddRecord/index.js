@@ -74,13 +74,13 @@ export default function AddRecord({ navigation }) {
     const handleAmount = e => {
         const hasNumber = new RegExp(/^-?\d+\.?\d*$/);
 
-        if(e <= 0){
+        if (e <= 0) {
             setAmount(null);
             setErrorAmount("El valor no puede ser igual o menor a 0.");
-        }else if(!hasNumber.test(e)){
+        } else if (!hasNumber.test(e)) {
             setAmount(null);
             setErrorAmount("Solo puede ingresar números.");
-        }else{
+        } else {
             setAmount(e);
             setErrorAmount("");
         }
@@ -96,28 +96,26 @@ export default function AddRecord({ navigation }) {
             description,
             expense
         }
-        
+
         if (!registro.date || !registro.category || !registro.sub || !registro.amount) return;
-        
-        try{
+
+        try {
             await saveRecord(registro);
-            console.log("se registró")
-            navigation.navigate('Diario', {enviado: true});
-        }catch{
-            console.log("No se pudo registrar.")
+            navigation.navigate('Diario', { enviado: true });
+        } catch {
         }
     }
 
-    if(loading){
-        return(
-        <View style={[styles.container, styles.horizontal]}>
-            <ActivityIndicator size="large" color="#0000ff"/>
-        </View>)
-    }else{
+    if (loading) {
         return (
-            
+            <View style={[styles.container, styles.horizontal]}>
+                <ActivityIndicator size="large" color="#0000ff" />
+            </View>)
+    } else {
+        return (
+
             <View style={styles.container}>
-                
+
                 <View style={styles.formContainer}>
                     <View>
                         <TouchableHighlight>
@@ -137,7 +135,7 @@ export default function AddRecord({ navigation }) {
                         is24Hour={true}
                         display="default"
                         onChange={handleChangeDate}
-                        maxDate = {new Date()}
+                        maxDate={new Date()}
                     />
                     }
                     <TouchableWithoutFeedback onPress={() => Keyboard.dismis}>
@@ -146,12 +144,12 @@ export default function AddRecord({ navigation }) {
                             selectedValue={category}
                             onValueChange={(itemValue) => setCategory(itemValue)}
                         >
-                            <Picker.Item label={"Ingresar una Categoría"} value={""}/>
-                            {categories.length > 0 && categories.map((c,i) =>
+                            <Picker.Item label={"Ingresar una Categoría"} value={""} />
+                            {categories.length > 0 && categories.map((c, i) =>
                                 <Picker.Item
                                     label={c.title}
-                                    value={c.title} 
-                                    key={i}/>
+                                    value={c.title}
+                                    key={i} />
                             )}
                         </Picker>
                     </TouchableWithoutFeedback>
@@ -161,12 +159,12 @@ export default function AddRecord({ navigation }) {
                             selectedValue={subCategory}
                             onValueChange={(itemValue) => setSubCategory(itemValue)}
                         >
-                            <Picker.Item label={"Ingresar una Subcategoría"} value={""}/>
+                            <Picker.Item label={"Ingresar una Subcategoría"} value={""} />
                             {category &&
-                                categories.filter(c => c.title === category)[0].subcategory.map((fc,i) =>
-                                    <Picker.Item 
-                                        label={fc.title} 
-                                        value={fc.title} 
+                                categories.filter(c => c.title === category)[0].subcategory.map((fc, i) =>
+                                    <Picker.Item
+                                        label={fc.title}
+                                        value={fc.title}
                                         key={i} />
                                 )
                             }
@@ -181,16 +179,16 @@ export default function AddRecord({ navigation }) {
                             onChangeText={(value) => handleAmount(value)}
                         />
                         <Switch
-                            style = {styles.borderBottom}
+                            style={styles.borderBottom}
                             trackColor={{ false: '#a0a3a8', true: '#a0a3a8' }}
                             thumbColor={pesos ? '#4a628a' : '#f4f3f4'}
                             ios_backgroundColor="#3e3e3e"
                             onChange={() => { setPesos(!pesos) }}
                             value={pesos}
-    
+
                         />
                     </View>
-                    {errorAmount !== "" && <Text style={{marginBottom:25, color:"red"}}> {errorAmount} </Text>}
+                    {errorAmount !== "" && <Text style={{ marginBottom: 25, color: "red" }}> {errorAmount} </Text>}
                     <TextInput
                         style={[styles.width, styles.textInput]}
                         placeholder="Ingresar una descripción"
@@ -208,7 +206,7 @@ export default function AddRecord({ navigation }) {
             </View>
         );
     }
-    
+
 
 }
 
@@ -218,7 +216,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#fff',
-        paddingTop:30
+        paddingTop: 30
     },
     formContainer: {
         padding: 8,
