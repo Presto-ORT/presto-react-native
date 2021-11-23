@@ -16,51 +16,50 @@ export default function Reportes() {
   const randomColor = () => ('#' + ((Math.random() * 0xffffff) << 0).toString(16) + '000000').slice(0, 7)
 
   useEffect(async () => {
-    try{
+    try {
       let data = await getReport();
       data.forEach(element => {
         element.color = randomColor();
       });
       let total = data.reduce((previous, current) => { return previous + current.total }, 0);
-  
+
       setReport(data);
       setTotal(total);
       setLoading(false);
       return () => { }
-    }catch{
-      console.log("Hubo un problema trayendo los reportes.")
+    } catch {
     }
 
   }, []);
 
-    if(loading){
-      return(
+  if (loading) {
+    return (
       <View style={styles.loadingStyle}>
-          <ActivityIndicator size="large" color="#0000ff"/>
+        <ActivityIndicator size="large" color="#0000ff" />
       </View>)
-  }else{
+  } else {
     return (
       <View style={styles.container}>
         <View style={styles.container}>
           <PieChartExample tamanio={200} data={report} />
         </View>
-        
-          <View style={styles.list}>
-            <ScrollView>
-              {
-                report.map((data, index) =>
-                  <View style={styles.dataRow} key={index}>
-                    <View style={{ backgroundColor: data.color, width: 20, height: 20, borderRadius: 100 }}><Text></Text></View>
-                    <Text style={styles.titulo}>{`${data.category}`}</Text>
-                    <Text style={styles.numero}>{`$${(data.total).toFixed(2)}`}</Text>
-                    <Text style={styles.numero}>{`${((data.total * 100) / total).toFixed(2)}%`}</Text>
-                    
-                  </View>)
-      
-              }
-            </ScrollView>
-          </View>
-        
+
+        <View style={styles.list}>
+          <ScrollView>
+            {
+              report.map((data, index) =>
+                <View style={styles.dataRow} key={index}>
+                  <View style={{ backgroundColor: data.color, width: 20, height: 20, borderRadius: 100 }}><Text></Text></View>
+                  <Text style={styles.titulo}>{`${data.category}`}</Text>
+                  <Text style={styles.numero}>{`$${(data.total).toFixed(2)}`}</Text>
+                  <Text style={styles.numero}>{`${((data.total * 100) / total).toFixed(2)}%`}</Text>
+
+                </View>)
+
+            }
+          </ScrollView>
+        </View>
+
       </View>
     );
   }
@@ -89,24 +88,24 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "flex-start",
     justifyContent: 'space-between',
-    width: Dimensions.get("window").width-40,
+    width: Dimensions.get("window").width - 40,
     paddingBottom: 30,
 
   },
-  numero: {    
+  numero: {
     textAlign: 'right',
     alignSelf: 'flex-end',
     flex: 1
   },
-  titulo: {     
+  titulo: {
     flex: 2
   },
 
   dataRow: {
-    flexDirection: 'row',    
+    flexDirection: 'row',
     justifyContent: 'space-between',
-    width: Dimensions.get("window").width-40,
-    marginBottom:10
+    width: Dimensions.get("window").width - 40,
+    marginBottom: 10
   },
 
 });

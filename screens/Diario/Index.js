@@ -2,16 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, SectionList } from 'react-native';
 import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
-import {deleteRecord} from "../../api/records";
+import { deleteRecord } from "../../api/records";
 import { retrieveToken } from "../../services/internalStorage";
 
 
 export default function Diario({ navigation, route }) {
 
 
-  const [today, setToday] = useState(new Date())  
+  const [today, setToday] = useState(new Date())
   const [gastosFiltrados, setGastosFiltrados] = useState([])
-  const [isDeleted, setIsDeleted] = useState()  
+  const [isDeleted, setIsDeleted] = useState()
 
   useEffect(async () => {
     const day = today.getDate()
@@ -20,18 +20,15 @@ export default function Diario({ navigation, route }) {
 
     let token = await retrieveToken();
 
-    let response = await axios.get(`http://192.168.0.206:3000/records?day=${day}&month=${month}&year=${year}`, { headers: { 'Authorization': `Bearer ${token}` } })
+    let response = await axios.get(`http://192.168.0.29:3000/records?day=${day}&month=${month}&year=${year}`, { headers: { 'Authorization': `Bearer ${token}` } })
 
     let registros = response.data;
-    console.log(registros)
-    console.log(day,month,year)
+
     let mapa = new Map()
 
-    registros.forEach( elemento => { mapa[elemento.category || "Uncategorized"] = (mapa[elemento.category || "Uncategorized"] || []).concat([{fecha: elemento.date, importe: elemento.amount, subcategoria: elemento.sub, _id: elemento._id}]) } )
+    registros.forEach(elemento => { mapa[elemento.category || "Uncategorized"] = (mapa[elemento.category || "Uncategorized"] || []).concat([{ fecha: elemento.date, importe: elemento.amount, subcategoria: elemento.sub, _id: elemento._id }]) })
 
-    var resultado = Object.entries(mapa).map( x => ({title: x[0], data: x[1]}) )
-    
-    console.log(resultado)
+    var resultado = Object.entries(mapa).map(x => ({ title: x[0], data: x[1] }))
 
     setGastosFiltrados(resultado)
   }, [today, isDeleted, route.params])
@@ -41,8 +38,8 @@ export default function Diario({ navigation, route }) {
       <Text style={styles.title}>{title.subcategoria}</Text>
       <View style={{ flexDirection: "row", alignItems: 'center' }}>
         <Text style={styles.innerTitle}>${title.importe}</Text>
-        <TouchableOpacity onPress={() => {deleteRecord(title._id); setIsDeleted(!isDeleted)}}>
-        <Ionicons name="trash-outline" size={20} color="#000"/>
+        <TouchableOpacity onPress={() => { deleteRecord(title._id); setIsDeleted(!isDeleted) }}>
+          <Ionicons name="trash-outline" size={20} color="#000" />
         </TouchableOpacity>
       </View>
 
@@ -52,11 +49,11 @@ export default function Diario({ navigation, route }) {
   return (
     <View style={styles.parent}>
       <View style={styles.topBar}>
-        
-      <TouchableOpacity onPress={() => {
-            let nuevaFecha = today
-            nuevaFecha.setDate(nuevaFecha.getDate() -1)            
-            setToday(new Date(nuevaFecha))                    
+
+        <TouchableOpacity onPress={() => {
+          let nuevaFecha = today
+          nuevaFecha.setDate(nuevaFecha.getDate() - 1)
+          setToday(new Date(nuevaFecha))
         }}>
           <Ionicons name="chevron-back-sharp" size={30} color="#006600" />
         </TouchableOpacity>
@@ -64,9 +61,9 @@ export default function Diario({ navigation, route }) {
           {today.getDate()}
         </Text>
         <TouchableOpacity onPress={() => {
-            let nuevaFecha = today
-            nuevaFecha.setDate(nuevaFecha.getDate() +1)
-            setToday(new Date(nuevaFecha))  
+          let nuevaFecha = today
+          nuevaFecha.setDate(nuevaFecha.getDate() + 1)
+          setToday(new Date(nuevaFecha))
         }}>
           <Ionicons name="chevron-forward-sharp" size={30} color="#006600" />
         </TouchableOpacity>
@@ -81,7 +78,7 @@ export default function Diario({ navigation, route }) {
           renderSectionHeader={({ section: { title } }) => (
             <Text style={styles.header}>{title}</Text>
           )}
-        />        
+        />
       </View>
     </View>
   );
